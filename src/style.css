@@ -1,0 +1,14 @@
+/** @format */
+@font-face {
+	font-family: "Montserrat";
+	src:
+		local("Montserrat"),
+		url("/fonts/Montserrat/Montserrat.ttf") format("ttf"),
+		url("/fonts/Montserrat/Montserrat.ttf") format("ttf");
+}
+
+body,
+html {
+	margin: 0; /* Asegura que no haya margen alrededor de la página */
+	min-height: 100vh;
+}
