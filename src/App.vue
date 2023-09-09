@@ -8,13 +8,6 @@
 		</div>
 		<div class="main-container">
 			<div class="nav-container">
-				<!-- <router-link to="/">Home</router-link> |
-			<router-link to="/about">About</router-link> |
-			<router-link :to="{ name: 'counter' }">Counter</router-link> |
-			<router-link :to="{ name: 'users' }">Usuarios</router-link> |
-			<router-link :to="{ name: 'pokemon-search' }">Buscar</router-link> |
-			<router-link :to="{ name: 'todo' }">Todo</router-link> |
-			<router-link :to="{ name: 'slots' }">Slots</router-link> -->
 				<NavbarItems />
 				<div class="nav-footer">
 					<div class="nav-footer-title">
@@ -30,6 +23,13 @@
 				<div class="header-container body-header">
 					<div class="header-inner">
 						<h1 class="header-title header-title-inner">OVERVIEW</h1>
+					</div>
+					<div>
+						<router-view v-slot="{ Component, route }">
+							<keep-alive>
+								<component :is="Component" :key="route.name" />
+							</keep-alive>
+						</router-view>
 					</div>
 				</div>
 			</div>

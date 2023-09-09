@@ -10,19 +10,19 @@ export const menuItems = [
 	{
 		id: 2,
 		title: "Usuarios",
-		name: "usuarios",
+		name: "users",
 		route: "/usuarios",
 	},
 	{
 		id: 3,
 		title: "Equipos",
-		name: "equipos",
+		name: "teams",
 		route: "/equipos",
 	},
 	{
 		id: 4,
 		title: "Integraciones",
-		name: "integraciones",
+		name: "integrations",
 		route: "/integraciones",
 	},
 ];
