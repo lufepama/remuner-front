@@ -19,7 +19,7 @@
 	</div>
 </template>
 <script>
-import { menuItems } from "../data/index";
+import { menuItems } from "../data";
 export default {
 	setup() {
 		return {

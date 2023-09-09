@@ -54,6 +54,7 @@ section {
 .header-container {
 	height: 47px;
 	padding-left: 21px;
+	background-color: #f4f5f8;
 }
 .header-inner {
 	display: flex;

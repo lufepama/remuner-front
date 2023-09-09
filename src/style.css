@@ -11,4 +11,5 @@ body,
 html {
 	margin: 0; /* Asegura que no haya margen alrededor de la página */
 	min-height: 100vh;
+	background-color: #e9e9ec;
 }
