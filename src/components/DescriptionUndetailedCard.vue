@@ -1,7 +1,7 @@
 <!-- @format -->
 
 <template>
-	<div class="main-container">
+	<div class="container">
 		<p v-for="{ title, description } in data">
 			<strong>{{ title }}</strong> = {{ description }}
 		</p>
@@ -18,12 +18,10 @@ export default {
 };
 </script>
 <style scoped>
-.main-container {
+.container {
 	width: 100% !important;
-	margin-top: -20px;
-	padding: 0 !important;
 }
 p {
-	margin-top: 20px;
+	margin-top: 15px;
 }
 </style>

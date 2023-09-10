@@ -2,6 +2,7 @@
 
 <template>
 	<section>
+		<Header title="OVERVIEW" />
 		<div class="main-container">
 			<div class="up-container">
 				<InteractiveCard
@@ -27,13 +28,14 @@
 </template>
 <script>
 import InteractiveCard from "../../components/InteractiveCard.vue";
+import Header from "../../components/Header.vue";
 import {
 	detailedCardDescription,
 	undetailedCardDescription,
 } from "../../data/index";
 import BasicCard from "../../components/BasicCard.vue";
 export default {
-	components: { InteractiveCard, BasicCard },
+	components: { InteractiveCard, BasicCard, Header },
 	setup() {
 		return {
 			detailedCardDescription,
@@ -44,9 +46,7 @@ export default {
 </script>
 <style scoped>
 section {
-	padding: 44px;
-	width: 100%;
-	height: calc(100vh - 47px - 47px);
+	height: 100% !important;
 }
 .up-container {
 	display: flex;
@@ -60,9 +60,10 @@ section {
 	width: 50% !important;
 }
 .main-container {
-	width: 84%;
+	width: 100%;
 	display: flex;
 	flex-direction: column;
+	padding: 47px 44px 0px 52px;
 }
 .bottom-container {
 	margin-top: 21px;

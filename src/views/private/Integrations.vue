@@ -1,9 +1,22 @@
 <!-- @format -->
 
-<template lang="">
-	<div>Integraciones</div>
+<template>
+	<section>
+		<Header title="Integraciones" />
+		<div class="main-container">Integraciones</div>
+	</section>
 </template>
 <script>
-export default {};
+import Header from "../../components/Header.vue";
+export default {
+	components: { Header },
+};
 </script>
-<style scoped></style>
+<style scoped>
+.main-container {
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	padding: 47px 44px 0px 52px;
+}
+</style>

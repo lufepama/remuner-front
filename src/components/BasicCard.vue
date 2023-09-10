@@ -30,7 +30,7 @@ export default {
 		drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.2));
 	background-color: #fff;
 	border-radius: 4px;
-	padding: 42px 32px 42px 37px;
+	padding: 42px 32px 42px 37px !important;
 }
 .text-title {
 	color: #222326;

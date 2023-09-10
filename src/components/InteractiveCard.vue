@@ -68,8 +68,7 @@ export default {
 	fill: #fff;
 	filter: drop-shadow(0px 1px 5px rgba(0, 0, 0, 0.13))
 		drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.2));
-	padding-top: 21px;
-	padding-left: 31px;
+	padding: 21px 19px 21px 31px !important;
 }
 .large-container {
 	width: 100% !important;
@@ -79,11 +78,10 @@ export default {
 	display: flex;
 	flex-direction: row;
 	align-items: center;
-	margin-bottom: 21px;
+	margin-bottom: 10px;
 }
 
 .header-title {
-	width: auto;
 	height: 28px;
 	flex-shrink: 0;
 	color: #292847;
@@ -101,7 +99,7 @@ export default {
 	flex-shrink: 0;
 }
 .card-menu-container {
-	margin-top: 10px;
+	margin-top: 15px !important;
 	width: 93px;
 	height: 27px;
 	flex-shrink: 0;

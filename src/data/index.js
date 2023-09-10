@@ -102,3 +102,31 @@ export const undetailedCardDescription = [
 			"{ id: Integer, name: String, type: String, token: String, status: Boolean }",
 	},
 ];
+
+export const usersData = [
+	{
+		id: 1,
+		name: "Felipe",
+		lastName: "Paz Martinez",
+		email: "lufepama31@gmail.com",
+	},
+	{
+		id: 2,
+		name: "Martina",
+		lastName: "Paz Mendez",
+		email: "Tinita31@gmail.com",
+	},
+	{
+		id: 3,
+		name: "Daniel",
+		lastName: "Mendez",
+		email: "ella93me@gmail.com",
+	},
+];
+
+export const userHeadersData = [
+	{ key: "id", title: "ID" },
+	{ key: "name", title: "Nombre" },
+	{ key: "lastName", title: "Apellidos" },
+	{ key: "email", title: "Email" },
+];

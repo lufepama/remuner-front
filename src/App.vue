@@ -19,29 +19,39 @@
 					</div>
 				</div>
 			</div>
-			<div>
-				<div class="header-container body-header">
-					<div class="header-inner">
-						<h1 class="header-title header-title-inner">OVERVIEW</h1>
-					</div>
-					<div>
-						<router-view v-slot="{ Component, route }">
-							<keep-alive>
-								<component :is="Component" :key="route.name" />
-							</keep-alive>
-						</router-view>
-					</div>
-				</div>
+			<div class="router-container">
+				<router-view v-slot="{ Component, route }">
+					<keep-alive>
+						<component :is="Component" :key="route.name" />
+					</keep-alive>
+				</router-view>
 			</div>
 		</div>
 	</section>
 </template>
 <script>
+import { useRoute } from "vue-router";
+import { ref, watch } from "vue";
 import NavbarItems from "./components/NavbarItems.vue";
+
 export default {
 	components: { NavbarItems },
 	setup() {
-		return {};
+		const route = useRoute();
+		const routeName = ref("ss");
+
+		watch(
+			() => route.path,
+			(newId) => {
+				routeName.value =
+					newId.substring(1).charAt(0).toUpperCase() +
+					newId.substring(1).slice(1);
+			}
+		);
+
+		return {
+			routeName,
+		};
 	},
 };
 </script>
@@ -118,7 +128,6 @@ section {
 .nav-text-email {
 	color: #5e6ad2;
 	text-align: center;
-	font-family: Montserrat;
 	font-size: 15.1px;
 	font-style: normal;
 	font-weight: 700;
@@ -144,5 +153,8 @@ section {
 	flex-direction: row;
 	justify-content: left;
 	padding-left: 16px;
+}
+.router-container {
+	width: 100%;
 }
 </style>
