@@ -7,12 +7,17 @@
 		<div>
 			<v-btn @click="onDelete" class="btn-trash" icon="mdi-delete"></v-btn>
 			<v-btn @click="onOpen" class="btn-plus" icon="mdi-plus"></v-btn>
+			<v-btn
+				v-if="canEdit"
+				@click="onEdit"
+				class="btn-edit"
+				icon="mdi-pencil"></v-btn>
 		</div>
 	</div>
 </template>
 <script>
 export default {
-	props: ["title", "onDelete", "onOpen"],
+	props: ["title", "onDelete", "onOpen", "onEdit", "canEdit"],
 	setup(props) {
 		return {
 			...props,
@@ -31,6 +36,9 @@ export default {
 }
 .btn-plus {
 	background-color: #5e6ad2;
+	margin-left: 10px;
+}
+.btn-edit {
 	margin-left: 10px;
 }
 </style>

@@ -9,9 +9,12 @@ const useUsers = () => {
 
 	// store.dispatch("getUsers");
 	store.dispatch("users/getUsers");
+
+	const getUserDetails = (userId) =>
+		computed(() => store.getters["users/getUserDetails"](userId));
+
 	return {
 		//getters
-		getUserDetails: computed(() => store.getters["users/getUserDetails"]),
 		getUsersList: computed(() => store.getters["users/getUsersList"]),
 		getAddCompleted: computed(() => store.getters["users/getAddCompleted"]),
 		getDeleteCompleted: computed(
@@ -24,6 +27,8 @@ const useUsers = () => {
 		deleteUser: async (userData) =>
 			await store.dispatch("users/deleteUser", userData),
 		// getUsers: async () => await store.dispatch("users/getUsers"),
+		//methods
+		getUserDetails,
 	};
 };
 

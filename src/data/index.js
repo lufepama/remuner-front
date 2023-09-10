@@ -118,7 +118,7 @@ export const usersData = [
 	},
 	{
 		id: 3,
-		name: "Daniel",
+		name: "Daniela",
 		lastName: "Mendez",
 		email: "ella93me@gmail.com",
 	},
@@ -134,7 +134,6 @@ export const userHeadersData = [
 export const teamHeadersData = [
 	{ key: "id", title: "ID" },
 	{ key: "name", title: "Nombre" },
-	{ key: "users", title: "Usuarios" },
 ];
 
 export const teamsData = [

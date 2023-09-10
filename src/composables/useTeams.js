@@ -1,67 +1,39 @@
 /** @format */
 
-import { ref } from "vue";
-import { teamsData } from "../data";
-import { v4 as uuidv4 } from "uuid";
+import { ref, computed } from "vue";
+import { useStore } from "vuex";
 
 const useTeams = () => {
 	//states
-	const teams = ref();
-	const isLoading = ref(false);
-	const errorMessage = ref("");
-	const deleteComplete = ref(false);
-	const addComplete = ref(false);
+	const store = useStore();
 
-	const addTeam = (name) => {
-		const newTeam = {
-			id: uuidv4,
-			name,
-			users: [],
-		};
-		teams.value = newTeam;
-		deleteComplete.value = false;
-		addComplete.value = true;
-	};
+	store.dispatch("teams/getTeams");
 
-	const deleteTeam = (teamsArray) => {
-		addComplete.value = false;
-		teams.value = teams.value.filter((user) => !teamsArray.includes(user.id));
-		deleteComplete.value = true;
-	};
+	const getTeamDetails = (teamId) =>
+		computed(() => store.getters["teams/getTeamDetails"](teamId));
 
-	const addUserToTeam = ({ teamId, user }) => {
-		const team = teams.value.filter((team) => team.id === teamId);
-		team.users.push(user);
-	};
-
-	const deleteUserInTeam = ({ teamId, userId }) => {
-		const team = teams.value.find((team) => team.id === teamId);
-		if (team) {
-			team.users = team.users.filter((user) => user !== userId);
-		}
-	};
-
-	const getTeams = async () => {
-		isLoading.value = true;
-		setTimeout(() => {
-			teams.value = teamsData;
-			isLoading.value = false;
-		}, 1000);
-	};
-
-	getTeams();
 	return {
-		//refs
-		isLoading,
-		teams,
-		errorMessage,
-		deleteComplete,
-		addComplete,
+		//getters
+		getTeamsList: computed(() => store.getters["teams/getTeamsList"]),
+		getAddCompleted: computed(() => store.getters["teams/getAddCompleted"]),
+		getDeleteCompleted: computed(
+			() => store.getters["teams/getDeleteCompleted"]
+		),
+		getIsLoading: computed(() => store.getters["teams/getIsLoading"]),
+
+		//actions
+		getTeams: async () => await store.dispatch("teams/getTeams"),
+		deleteTeams: async (teamsData) =>
+			await store.dispatch("teams/deleteTeams", teamsData),
+		addTeam: async (teamData) =>
+			await store.dispatch("teams/addTeam", teamData),
+		addUserToTeam: async (userTeamData) =>
+			await store.dispatch("teams/addUserToTeam", userTeamData),
+		deleteUserInTeam: async (userTeamData) =>
+			await store.dispatch("teams/deleteTeams", userTeamData),
+
 		//methods
-		addTeam,
-		deleteTeam,
-		addUserToTeam,
-		deleteUserInTeam,
+		getTeamDetails,
 	};
 };
 

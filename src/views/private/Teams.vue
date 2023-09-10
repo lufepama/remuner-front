@@ -14,7 +14,9 @@
 					<ViewCardHeader
 						title="Gestiona tu equipo"
 						:onDelete="handleDelete"
-						:onOpen="openDialog" />
+						:onOpen="openDialog"
+						:canEdit="true"
+						:onEdit="handleEdit" />
 				</v-card-title>
 				<v-card>
 					<v-card-title class="title-table">
@@ -31,7 +33,6 @@
 						:headers="headers"
 						:items="teams"
 						:search="search"
-						:loading="isLoading"
 						show-select
 						hide-no-data
 						v-model="selectedTeam">
@@ -41,27 +42,27 @@
 			<v-dialog v-model="isOpen" persistent width="1024">
 				<v-card>
 					<v-card-title>
-						<span class="text-h5">User Profile</span>
+						<span v-if="showEdit" class="text-h5">Anade un usuario </span>
+						<span v-else class="text-h5">Nuevo equipo</span>
 					</v-card-title>
 					<v-card-text>
 						<v-container>
 							<v-row>
-								<v-col cols="12">
+								<v-col v-if="showEdit" cols="12">
+									<v-combobox
+										item-title="text"
+										item-value="id"
+										v-model="selectedUser"
+										:items="availableUsers">
+									</v-combobox>
+									<h4 v-if="availableUsers.length == 0">
+										Este equipo ya cuenta con todos los usuarios
+									</h4>
+								</v-col>
+								<v-col v-else cols="12">
 									<v-text-field
 										v-model="name"
 										label="Nombre *"
-										required></v-text-field>
-								</v-col>
-								<v-col cols="12">
-									<v-text-field
-										v-model="lastName"
-										label="Apellido *"
-										required></v-text-field>
-								</v-col>
-								<v-col cols="12">
-									<v-text-field
-										v-model="email"
-										label="Email *"
 										required></v-text-field>
 								</v-col>
 							</v-row>
@@ -70,7 +71,7 @@
 					</v-card-text>
 					<v-card-actions>
 						<v-spacer></v-spacer>
-						<v-btn color="blue-darken-1" variant="text" @click="isOpen = false">
+						<v-btn color="blue-darken-1" variant="text" @click="handleClose">
 							Cancelar
 						</v-btn>
 						<v-btn color="blue-darken-1" variant="text" @click="handleSave">
@@ -83,12 +84,13 @@
 	</section>
 </template>
 <script>
-import { ref } from "vue";
+import { ref, watch } from "vue";
 import Header from "../../components/Header.vue"; // Asegúrate de importar el componente Header
 import { VDataTable } from "vuetify/labs/VDataTable";
 import useTeams from "../../composables/useTeams";
 import { teamHeadersData } from "../../data/index";
 import ViewCardHeader from "../../components/ViewCardHeader.vue";
+import useUsers from "../../composables/useUsers";
 
 export default {
 	components: {
@@ -98,53 +100,87 @@ export default {
 	},
 	setup() {
 		const {
-			isLoading,
-			teams,
-			errorMessage,
-			deleteComplete,
-			addComplete,
+			//getters
+			getTeamDetails,
+			getTeamsList,
+			getAddCompleted,
+			getDeleteCompleted,
+			getIsLoading,
 			//methods
+			getTeams,
+			deleteTeams,
 			addTeam,
-			deleteTeam,
 			addUserToTeam,
 			deleteUserInTeam,
 		} = useTeams();
+		const { getUsersList, getUserDetails } = useUsers();
 		const selectedTeam = ref([]);
+		const availableUsers = ref([]);
+		const selectedUser = ref();
+		const showEdit = ref();
 		const isOpen = ref(false);
 		const showAlert = ref(false);
 		const name = ref("");
-		const lastName = ref("");
-		const email = ref("");
 
 		const getAlertText = () => {
-			if (deleteComplete.value) {
+			if (getDeleteCompleted.value) {
 				return "Usuario eliminado correctamente";
-			} else if (addComplete.value) {
+			} else if (getAddCompleted.value) {
 				return "Usuario añadido correctamente";
 			}
 		};
 
 		const openDialog = () => {
 			name.value = "";
-			email.value = "";
-			lastName.value = "";
 			showAlert.value = false;
 			isOpen.value = true;
 		};
 
-		const handleSave = () => {
-			addUser({
-				email: email.value,
-				name: name.value,
-				lastName: lastName.value,
-			});
-			showAlert.value = true;
+		const handleClose = () => {
 			isOpen.value = false;
+			setTimeout(() => {
+				showEdit.value = false;
+			}, 500);
+		};
+
+		const handleSave = () => {
+			if (showEdit.value) {
+				const userInfo = getUserDetails(selectedUser.value.id);
+				const teamId = selectedTeam.value[0];
+				addUserToTeam({ userData: userInfo.value, teamId });
+				isOpen.value = false;
+				selectedTeam.value = null;
+				selectedUser.value = null;
+			} else {
+				addTeam(name.value);
+				showAlert.value = true;
+				isOpen.value = false;
+			}
 		};
 
 		const handleDelete = () => {
-			deleteUser(selectedTeam.value);
+			deleteTeams(selectedTeam.value[0].name);
 			showAlert.value = true;
+		};
+
+		const formattedUsers = (users) => {
+			return users.map((user) => ({
+				text: `${user.name} ${user.lastName}`,
+				id: user.id,
+			}));
+		};
+
+		const handleEdit = () => {
+			showEdit.value = true;
+			setTimeout(() => {
+				const team = getTeamDetails(selectedTeam.value[0]);
+				const users = getUsersList.value.filter((user) => {
+					return !team.value.users.some((usr) => usr.id === user.id);
+				});
+				availableUsers.value = formattedUsers(users);
+				console.log(availableUsers.value);
+				isOpen.value = true;
+			}, 200);
 		};
 
 		// Datos de la tabla
@@ -153,19 +189,22 @@ export default {
 		return {
 			isOpen,
 			selectedTeam,
-			isLoading,
+			showEdit,
+			// isLoading,
 			showAlert,
-			errorMessage,
+			// errorMessage,
 			name,
-			email,
-			lastName,
 			search,
 			headers: teamHeadersData,
-			teams,
+			teams: getTeamsList,
+			availableUsers,
+			selectedUser,
 			handleSave,
 			openDialog,
 			handleDelete,
 			getAlertText,
+			handleEdit,
+			handleClose,
 		};
 	},
 };

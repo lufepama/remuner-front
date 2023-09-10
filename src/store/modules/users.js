@@ -14,7 +14,7 @@ export default {
 	getters: {
 		getUsersList: (state) => state.users,
 		getUserDetails: (state) => (userId) =>
-			state.users.value.find((user) => user.id === userId),
+			state.users.find((user) => user.id === userId),
 		getDeleteCompleted: (state) => state.deleteComplete,
 		getAddCompleted: (state) => state.addComplete,
 		getIsLoading: (state) => state.isLoading,
