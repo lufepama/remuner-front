@@ -13,3 +13,6 @@ html {
 	min-height: 100vh;
 	background-color: #e9e9ec;
 }
+.v-data-table-footer {
+	display: none !important;
+}

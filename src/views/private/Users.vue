@@ -2,7 +2,7 @@
 
 <template>
 	<section>
-		<Header title="Usuarios" />
+		<Header title="USUARIOS" />
 		<div class="main-container">
 			<v-card width="100%" class="card-container">
 				<v-alert
@@ -26,16 +26,26 @@
 							single-line
 							hide-details></v-text-field>
 					</v-card-title>
-
-					<v-data-table
-						:headers="headers"
-						:items="users"
-						:search="search"
-						show-select
-						hide-no-data
-						v-model="selectedUsers"
-						:loading="isLoading">
-					</v-data-table>
+					<div
+						class="table-container"
+						style="max-height: 300px; overflow-y: auto">
+						<v-data-table
+							:headers="headers"
+							:items="users"
+							:search="search"
+							show-select
+							hide-no-data
+							v-model="selectedUsers"
+							:loading="isLoading">
+							<template v-slot:item.status="{ item }">
+								<i
+									v-if="item.selectable.status"
+									@click="onEdit"
+									class="mdi mdi-check check-icon"></i>
+								<i v-else @click="onEdit" class="mdi mdi-close close-icon"></i>
+							</template>
+						</v-data-table>
+					</div>
 				</v-card>
 			</v-card>
 			<v-dialog v-model="isOpen" persistent width="40%">
@@ -63,6 +73,9 @@
 										v-model="email"
 										label="Email *"
 										required></v-text-field>
+								</v-col>
+								<v-col cols="12">
+									<v-checkbox v-model="status" label="Estado"></v-checkbox>
 								</v-col>
 							</v-row>
 						</v-container>
@@ -114,6 +127,7 @@ export default {
 		const name = ref("");
 		const lastName = ref("");
 		const email = ref("");
+		const status = ref(false);
 
 		const getAlertText = () => {
 			if (getDeleteCompleted.value) {
@@ -127,6 +141,8 @@ export default {
 			name.value = "";
 			email.value = "";
 			lastName.value = "";
+			status.value = false;
+
 			showAlert.value = false;
 			isOpen.value = true;
 		};
@@ -136,6 +152,7 @@ export default {
 				email: email.value,
 				name: name.value,
 				lastName: lastName.value,
+				status: status.value,
 			});
 			showAlert.value = true;
 			isOpen.value = false;
@@ -149,6 +166,7 @@ export default {
 			name,
 			email,
 			lastName,
+			status,
 			search,
 			users: getUsersList,
 			headers: userHeadersData,
@@ -199,5 +217,11 @@ section {
 .btn-plus {
 	background-color: #5e6ad2;
 	margin-left: 10px;
+}
+.close-icon {
+	color: Red;
+}
+.check-icon {
+	color: yellowgreen;
 }
 </style>

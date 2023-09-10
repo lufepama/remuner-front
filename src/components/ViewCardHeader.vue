@@ -1,6 +1,6 @@
 <!-- @format -->
 
-<template lang="">
+<template>
 	<div class="header-container">
 		<h1>{{ title }}</h1>
 		<!-- <v-btn color="primary" @click="openDialog">Abrir Diálogo</v-btn> -->
@@ -43,6 +43,7 @@ export default {
 	display: flex;
 	flex-direction: row;
 	justify-content: space-between;
+	margin-bottom: 20px;
 }
 .btn-trash {
 	background-color: #e45252;

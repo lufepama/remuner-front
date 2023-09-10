@@ -2,7 +2,7 @@
 
 <template>
 	<section>
-		<Header title="Usuarios" />
+		<Header title="EQUIPOS" />
 		<div class="main-container">
 			<v-card width="100%" class="card-container">
 				<v-alert
@@ -30,15 +30,19 @@
 							single-line
 							hide-details></v-text-field>
 					</v-card-title>
-
-					<v-data-table
-						:headers="headers"
-						:items="teams"
-						:search="search"
-						show-select
-						hide-no-data
-						v-model="selectedTeam">
-					</v-data-table>
+					<div
+						class="table-container"
+						style="max-height: 450px; overflow-y: auto">
+						<v-data-table
+							:headers="headers"
+							:items="teams"
+							:search="search"
+							show-select
+							hide-no-data
+							v-model="selectedTeam"
+							:loading="isLoading">
+						</v-data-table>
+					</div>
 				</v-card>
 			</v-card>
 			<v-dialog v-model="isOpen" persistent width="40%">
@@ -111,9 +115,10 @@ export default {
 	setup() {
 		const {
 			//getters
-			getTeamDetails,
 			getTeamsList,
+			getIsLoading,
 			//methods
+			getTeamDetails,
 			deleteTeams,
 			addTeam,
 			addUserToTeam,
@@ -198,7 +203,7 @@ export default {
 			showEdit,
 			showObserve,
 			usersInTeam,
-			// isLoading,
+			isLoading: getIsLoading,
 			showAlert,
 			// errorMessage,
 			name,

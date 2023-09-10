@@ -110,18 +110,21 @@ export const usersData = [
 		name: "Felipe",
 		lastName: "Paz Martinez",
 		email: "lufepama31@gmail.com",
+		status: true,
 	},
 	{
 		id: 2,
 		name: "Martina",
 		lastName: "Paz Mendez",
 		email: "Tinita31@gmail.com",
+		status: true,
 	},
 	{
 		id: 3,
 		name: "Daniela",
 		lastName: "Mendez",
 		email: "ella93me@gmail.com",
+		status: true,
 	},
 ];
 
@@ -130,6 +133,7 @@ export const userHeadersData = [
 	{ key: "name", title: "Nombre" },
 	{ key: "lastName", title: "Apellidos" },
 	{ key: "email", title: "Email" },
+	{ key: "status", title: "Estado" },
 ];
 
 export const teamHeadersData = [
@@ -175,21 +179,61 @@ export const integrationsData = [
 		id: 1,
 		name: "Integration #1",
 		token: uuidv4(),
+		status: false,
 	},
 	{
 		id: 2,
 		name: "Integration #2",
 		token: uuidv4(),
+		status: false,
 	},
 	{
 		id: 3,
 		name: "Integration #3",
 		token: uuidv4(),
+		status: true,
 	},
 	{
 		id: 4,
 		name: "Integration #4",
 		token: uuidv4(),
+		status: true,
+	},
+	{
+		id: 2,
+		name: "Integration #2",
+		token: uuidv4(),
+		status: false,
+	},
+	{
+		id: 3,
+		name: "Integration #3",
+		token: uuidv4(),
+		status: true,
+	},
+	{
+		id: 4,
+		name: "Integration #4",
+		token: uuidv4(),
+		status: true,
+	},
+	{
+		id: 2,
+		name: "Integration #2",
+		token: uuidv4(),
+		status: false,
+	},
+	{
+		id: 3,
+		name: "Integration #3",
+		token: uuidv4(),
+		status: true,
+	},
+	{
+		id: 4,
+		name: "Integration #4",
+		token: uuidv4(),
+		status: true,
 	},
 ];
 
@@ -197,4 +241,5 @@ export const integrationsHeadersData = [
 	{ key: "id", title: "ID" },
 	{ key: "token", title: "Token" },
 	{ key: "name", title: "Nombre" },
+	{ key: "status", title: "Estado" },
 ];

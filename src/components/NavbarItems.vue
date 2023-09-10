@@ -4,6 +4,7 @@
 	<div>
 		<v-list class="list-container" lines="one">
 			<router-link
+				class="router-link-custom"
 				v-for="{ id, name, title } in menuItems"
 				:to="{ name: name }"
 				:key="id">
@@ -55,5 +56,9 @@ export default {
 .list-container {
 	background-color: inherit;
 	padding: 7px 4px 0 4px;
+}
+.router-link-custom {
+	text-decoration: none; /* Elimina la línea subrayada */
+	color: inherit; /* Mantén el color predeterminado del texto */
 }
 </style>

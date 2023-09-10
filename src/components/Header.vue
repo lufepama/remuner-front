@@ -1,7 +1,7 @@
 <!-- @format -->
 
 <template>
-	<div class="header-container">
+	<div class="my-container">
 		<h1 class="header-title">{{ title }}</h1>
 	</div>
 </template>
@@ -16,7 +16,7 @@ export default {
 };
 </script>
 <style scoped>
-.header-container {
+.my-container {
 	width: 100% !important;
 	height: 47px;
 	background-color: #5e6ad2;

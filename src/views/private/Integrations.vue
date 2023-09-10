@@ -2,7 +2,7 @@
 
 <template>
 	<section>
-		<Header title="Usuarios" />
+		<Header title="INTEGRACIONES" />
 		<div class="main-container">
 			<v-card width="100%" class="card-container">
 				<v-alert
@@ -26,16 +26,26 @@
 							single-line
 							hide-details></v-text-field>
 					</v-card-title>
-
-					<v-data-table
-						:headers="headers"
-						:items="integrations"
-						:search="search"
-						show-select
-						hide-no-data
-						v-model="selectedUsers"
-						:loading="isLoading">
-					</v-data-table>
+					<div
+						class="table-container"
+						style="max-height: 450px; overflow-y: auto">
+						<v-data-table
+							:headers="headers"
+							:items="integrations"
+							:search="search"
+							show-select
+							hide-no-data
+							v-model="selectedUsers"
+							:loading="isLoading">
+							<template v-slot:item.status="{ item }">
+								<i
+									v-if="item.selectable.status"
+									@click="onEdit"
+									class="mdi mdi-check check-icon"></i>
+								<i v-else @click="onEdit" class="mdi mdi-close close-icon"></i>
+							</template>
+						</v-data-table>
+					</div>
 				</v-card>
 			</v-card>
 			<v-dialog v-model="isOpen" persistent width="40%">
@@ -169,6 +179,7 @@ section {
 }
 .table-container {
 	height: 100%;
+	background-color: red;
 }
 .card-title {
 	background-color: red;
@@ -187,5 +198,11 @@ section {
 .btn-plus {
 	background-color: #5e6ad2;
 	margin-left: 10px;
+}
+.close-icon {
+	color: Red;
+}
+.check-icon {
+	color: yellowgreen;
 }
 </style>

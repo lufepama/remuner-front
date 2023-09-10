@@ -18,9 +18,9 @@ const useIntegrations = () => {
 			() => store.getters["integrations/getAddCompleted"]
 		);
 		if (getDeleteCompleted.value) {
-			return "Has añadido un recurso de integraciones correctamente";
-		} else if (getAddCompleted.value) {
 			return "Has eliminado un recurso de integraciones correctamente";
+		} else if (getAddCompleted.value) {
+			return "Has añadido un recurso de integraciones correctamente";
 		}
 	};
 
