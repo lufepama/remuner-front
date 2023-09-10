@@ -10,6 +10,20 @@ const useUsers = () => {
 	// store.dispatch("getUsers");
 	store.dispatch("users/getUsers");
 
+	const getAlertText = () => {
+		const getDeleteCompleted = computed(
+			() => store.getters["users/getDeleteCompleted"]
+		);
+		const getAddCompleted = computed(
+			() => store.getters["users/getAddCompleted"]
+		);
+		if (getDeleteCompleted.value) {
+			return "Has añadido un recurso de usuarios correctamente";
+		} else if (getAddCompleted.value) {
+			return "Has eliminado un recurso de usuarios correctamente";
+		}
+	};
+
 	const getUserDetails = (userId) =>
 		computed(() => store.getters["users/getUserDetails"](userId));
 
@@ -29,6 +43,7 @@ const useUsers = () => {
 		// getUsers: async () => await store.dispatch("users/getUsers"),
 		//methods
 		getUserDetails,
+		getAlertText,
 	};
 };
 

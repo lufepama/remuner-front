@@ -12,12 +12,25 @@
 				@click="onEdit"
 				class="btn-edit"
 				icon="mdi-pencil"></v-btn>
+			<v-btn
+				v-if="canObserve"
+				@click="onObserve"
+				class="btn-edit"
+				icon="mdi-eye"></v-btn>
 		</div>
 	</div>
 </template>
 <script>
 export default {
-	props: ["title", "onDelete", "onOpen", "onEdit", "canEdit"],
+	props: [
+		"title",
+		"onDelete",
+		"onOpen",
+		"onEdit",
+		"canEdit",
+		"canObserve",
+		"onObserve",
+	],
 	setup(props) {
 		return {
 			...props,

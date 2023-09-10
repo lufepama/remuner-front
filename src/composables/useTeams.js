@@ -12,6 +12,27 @@ const useTeams = () => {
 	const getTeamDetails = (teamId) =>
 		computed(() => store.getters["teams/getTeamDetails"](teamId));
 
+	const getAlertText = () => {
+		const getDeleteCompleted = computed(
+			() => store.getters["teams/getDeleteCompleted"]
+		);
+		const getAddCompleted = computed(
+			() => store.getters["teams/getAddCompleted"]
+		);
+		if (getDeleteCompleted.value) {
+			return "Has eliminado de equipo un recurso correctamente";
+		} else if (getAddCompleted.value) {
+			return "Has añadido de equipo un recurso correctamente";
+		}
+	};
+
+	const formattedUsers = (users) => {
+		return users.map((user) => ({
+			text: `${user.name} ${user.lastName}`,
+			id: user.id,
+		}));
+	};
+
 	return {
 		//getters
 		getTeamsList: computed(() => store.getters["teams/getTeamsList"]),
@@ -34,6 +55,8 @@ const useTeams = () => {
 
 		//methods
 		getTeamDetails,
+		getAlertText,
+		formattedUsers,
 	};
 };
 

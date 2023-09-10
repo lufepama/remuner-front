@@ -16,6 +16,8 @@
 						:onDelete="handleDelete"
 						:onOpen="openDialog"
 						:canEdit="true"
+						:canObserve="true"
+						:onObserve="handleObserve"
 						:onEdit="handleEdit" />
 				</v-card-title>
 				<v-card>
@@ -48,7 +50,15 @@
 					<v-card-text>
 						<v-container>
 							<v-row>
-								<v-col v-if="showEdit" cols="12">
+								<v-col v-if="showObserve">
+									<h4>Lista de usuarios</h4>
+									<ul>
+										<li v-for="{ id, name } in usersInTeam" :key="id">
+											{{ name }}
+										</li>
+									</ul>
+								</v-col>
+								<v-col v-else-if="showEdit" cols="12">
 									<v-combobox
 										item-title="text"
 										item-value="id"
@@ -107,28 +117,22 @@ export default {
 			getDeleteCompleted,
 			getIsLoading,
 			//methods
-			getTeams,
 			deleteTeams,
 			addTeam,
 			addUserToTeam,
-			deleteUserInTeam,
+			getAlertText,
+			formattedUsers,
 		} = useTeams();
 		const { getUsersList, getUserDetails } = useUsers();
 		const selectedTeam = ref([]);
 		const availableUsers = ref([]);
+		const usersInTeam = ref([]);
 		const selectedUser = ref();
 		const showEdit = ref();
+		const showObserve = ref();
 		const isOpen = ref(false);
 		const showAlert = ref(false);
 		const name = ref("");
-
-		const getAlertText = () => {
-			if (getDeleteCompleted.value) {
-				return "Usuario eliminado correctamente";
-			} else if (getAddCompleted.value) {
-				return "Usuario añadido correctamente";
-			}
-		};
 
 		const openDialog = () => {
 			name.value = "";
@@ -141,6 +145,8 @@ export default {
 			setTimeout(() => {
 				showEdit.value = false;
 			}, 500);
+			showEdit.value = false;
+			showObserve.value = false;
 		};
 
 		const handleSave = () => {
@@ -159,15 +165,8 @@ export default {
 		};
 
 		const handleDelete = () => {
-			deleteTeams(selectedTeam.value[0].name);
+			deleteTeams(selectedTeam.value);
 			showAlert.value = true;
-		};
-
-		const formattedUsers = (users) => {
-			return users.map((user) => ({
-				text: `${user.name} ${user.lastName}`,
-				id: user.id,
-			}));
 		};
 
 		const handleEdit = () => {
@@ -178,9 +177,17 @@ export default {
 					return !team.value.users.some((usr) => usr.id === user.id);
 				});
 				availableUsers.value = formattedUsers(users);
-				console.log(availableUsers.value);
 				isOpen.value = true;
 			}, 200);
+		};
+
+		const handleObserve = () => {
+			setTimeout(() => {
+				const team = getTeamDetails(selectedTeam.value[0]);
+				usersInTeam.value = team.value.users;
+				showObserve.value = true;
+				isOpen.value = true;
+			}, 500);
 		};
 
 		// Datos de la tabla
@@ -190,6 +197,8 @@ export default {
 			isOpen,
 			selectedTeam,
 			showEdit,
+			showObserve,
+			usersInTeam,
 			// isLoading,
 			showAlert,
 			// errorMessage,
@@ -205,6 +214,7 @@ export default {
 			getAlertText,
 			handleEdit,
 			handleClose,
+			handleObserve,
 		};
 	},
 };
