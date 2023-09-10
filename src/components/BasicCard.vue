@@ -3,12 +3,16 @@
 <template>
 	<div class="main-container">
 		<p class="text-title">{{ title }}</p>
-		<p class="text-number">{{ number }}</p>
+		<v-progress-circular
+			v-if="isLoading"
+			indeterminate
+			color="primary"></v-progress-circular>
+		<p v-else class="text-number">{{ number }}</p>
 	</div>
 </template>
 <script>
 export default {
-	props: ["title", "number"],
+	props: ["title", "number", "isLoading"],
 	setup(props) {
 		return {
 			...props,

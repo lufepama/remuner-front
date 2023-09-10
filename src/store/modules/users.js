@@ -18,6 +18,7 @@ export default {
 		getDeleteCompleted: (state) => state.deleteComplete,
 		getAddCompleted: (state) => state.addComplete,
 		getIsLoading: (state) => state.isLoading,
+		getUsersNumber: (state) => state.users.length,
 	},
 	actions: {
 		async getUsers({ commit }) {

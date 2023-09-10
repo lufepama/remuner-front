@@ -18,6 +18,7 @@ export default {
 		getDeleteCompleted: (state) => state.deleteComplete,
 		getAddCompleted: (state) => state.addComplete,
 		getIsLoading: (state) => state.isLoading,
+		getTeamsNumber: (state) => state.teams.length,
 	},
 	actions: {
 		async getTeams({ commit }) {

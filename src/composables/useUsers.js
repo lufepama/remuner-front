@@ -35,6 +35,7 @@ const useUsers = () => {
 			() => store.getters["users/getDeleteCompleted"]
 		),
 		getIsLoading: computed(() => store.getters["users/getIsLoading"]),
+		getUsersNumber: computed(() => store.getters["users/getUsersNumber"]),
 		//actions
 		addUser: async (userData) =>
 			await store.dispatch("users/addUser", userData),

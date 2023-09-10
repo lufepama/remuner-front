@@ -18,6 +18,7 @@ export default {
 		getDeleteCompleted: (state) => state.deleteComplete,
 		getAddCompleted: (state) => state.addComplete,
 		getIsLoading: (state) => state.isLoading,
+		getIntegrationsNumber: (state) => state.integrations.length,
 	},
 	actions: {
 		async getIntegrations({ commit }) {

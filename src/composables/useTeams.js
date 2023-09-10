@@ -41,6 +41,7 @@ const useTeams = () => {
 			() => store.getters["teams/getDeleteCompleted"]
 		),
 		getIsLoading: computed(() => store.getters["teams/getIsLoading"]),
+		getTeamsNumber: computed(() => store.getters["teams/getTeamsNumber"]),
 
 		//actions
 		getTeams: async () => await store.dispatch("teams/getTeams"),

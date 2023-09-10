@@ -41,6 +41,10 @@ const useIntegrations = () => {
 			() => store.getters["integrations/getDeleteCompleted"]
 		),
 		getIsLoading: computed(() => store.getters["integrations/getIsLoading"]),
+		getIntegrationsNumber: computed(
+			() => store.getters["integrations/getIntegrationsNumber"]
+		),
+
 		//actions
 		addIntegrations: async (userData) =>
 			await store.dispatch("integrations/addIntegrations", userData),

@@ -11,9 +11,18 @@
 					v-bind:isDetailed="true"
 					:detailedData="detailedCardDescription" />
 				<div class="basic-cards-container">
-					<BasicCard title="Usuarios" number="15" />
-					<BasicCard title="Equipos" number="2" />
-					<BasicCard title="Integraciones" number="4" />
+					<BasicCard
+						title="Usuarios"
+						:number="usersNumber"
+						:isLoading="userIsLoading" />
+					<BasicCard
+						title="Equipos"
+						:number="teamsNumber"
+						:isLoading="teamsIsLoading" />
+					<BasicCard
+						title="Integraciones"
+						:number="integrationsNumber"
+						:isLoading="integrationIsLoading" />
 				</div>
 			</div>
 			<div class="bottom-container">
@@ -28,6 +37,9 @@
 </template>
 <script>
 import InteractiveCard from "../../components/InteractiveCard.vue";
+import useUsers from "../../composables/useUsers";
+import useTeams from "../../composables/useTeams";
+import useIntegrations from "../../composables/useIntegrations";
 import Header from "../../components/Header.vue";
 import {
 	detailedCardDescription,
@@ -37,9 +49,19 @@ import BasicCard from "../../components/BasicCard.vue";
 export default {
 	components: { InteractiveCard, BasicCard, Header },
 	setup() {
+		const { getUsersNumber, getIsLoading: userIsLoading } = useUsers();
+		const { getTeamsNumber, getIsLoading: teamsIsLoading } = useTeams();
+		const { getIntegrationsNumber, getIsLoading: integrationIsLoading } =
+			useIntegrations();
 		return {
 			detailedCardDescription,
 			undetailedCardDescription,
+			usersNumber: getUsersNumber,
+			teamsNumber: getTeamsNumber,
+			integrationsNumber: getIntegrationsNumber,
+			userIsLoading,
+			teamsIsLoading,
+			integrationIsLoading,
 		};
 	},
 };
