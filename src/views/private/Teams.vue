@@ -41,7 +41,7 @@
 					</v-data-table>
 				</v-card>
 			</v-card>
-			<v-dialog v-model="isOpen" persistent width="1024">
+			<v-dialog v-model="isOpen" persistent width="40%">
 				<v-card>
 					<v-card-title>
 						<span v-if="showEdit" class="text-h5">Anade un usuario </span>
@@ -113,9 +113,6 @@ export default {
 			//getters
 			getTeamDetails,
 			getTeamsList,
-			getAddCompleted,
-			getDeleteCompleted,
-			getIsLoading,
 			//methods
 			deleteTeams,
 			addTeam,
@@ -153,11 +150,13 @@ export default {
 			if (showEdit.value) {
 				const userInfo = getUserDetails(selectedUser.value.id);
 				const teamId = selectedTeam.value[0];
+
 				addUserToTeam({ userData: userInfo.value, teamId });
 				isOpen.value = false;
 				selectedTeam.value = null;
 				selectedUser.value = null;
 			} else {
+				console.log(2);
 				addTeam(name.value);
 				showAlert.value = true;
 				isOpen.value = false;

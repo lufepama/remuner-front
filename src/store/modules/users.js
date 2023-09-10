@@ -40,17 +40,8 @@ export default {
 		},
 	},
 	mutations: {
-		updateLoading(state, value) {
-			state.isLoading = value;
-		},
 		updateUsers(state, payload) {
 			state.users = payload;
-		},
-		updateDeleteFlag(state, value) {
-			state.deleteComplete = value;
-		},
-		updateAddFlag(state, value) {
-			state.addComplete = value;
 		},
 		addUser(state, payload) {
 			payload.id = uuidv4();
@@ -58,6 +49,15 @@ export default {
 		},
 		deleteUser(state, payload) {
 			state.users = state.users.filter((user) => !payload.includes(user.id));
+		},
+		updateLoading(state, value) {
+			state.isLoading = value;
+		},
+		updateDeleteFlag(state, value) {
+			state.deleteComplete = value;
+		},
+		updateAddFlag(state, value) {
+			state.addComplete = value;
 		},
 	},
 };

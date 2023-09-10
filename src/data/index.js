@@ -1,4 +1,5 @@
 /** @format */
+import { v4 as uuidv4 } from "uuid";
 
 export const menuItems = [
 	{
@@ -167,4 +168,33 @@ export const teamsData = [
 			},
 		],
 	},
+];
+
+export const integrationsData = [
+	{
+		id: 1,
+		name: "Integration #1",
+		token: uuidv4(),
+	},
+	{
+		id: 2,
+		name: "Integration #2",
+		token: uuidv4(),
+	},
+	{
+		id: 3,
+		name: "Integration #3",
+		token: uuidv4(),
+	},
+	{
+		id: 4,
+		name: "Integration #4",
+		token: uuidv4(),
+	},
+];
+
+export const integrationsHeadersData = [
+	{ key: "id", title: "ID" },
+	{ key: "token", title: "Token" },
+	{ key: "name", title: "Nombre" },
 ];
