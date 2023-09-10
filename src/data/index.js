@@ -130,3 +130,42 @@ export const userHeadersData = [
 	{ key: "lastName", title: "Apellidos" },
 	{ key: "email", title: "Email" },
 ];
+
+export const teamHeadersData = [
+	{ key: "id", title: "ID" },
+	{ key: "name", title: "Nombre" },
+	{ key: "users", title: "Usuarios" },
+];
+
+export const teamsData = [
+	{
+		id: 1,
+		name: "Team #1",
+		users: [
+			{
+				id: 1,
+				name: "Felipe",
+				lastName: "Paz Martinez",
+				email: "lufepama31@gmail.com",
+			},
+			{
+				id: 2,
+				name: "Martina",
+				lastName: "Paz Mendez",
+				email: "Tinita31@gmail.com",
+			},
+		],
+	},
+	{
+		id: 2,
+		name: "Team #2",
+		users: [
+			{
+				id: 1,
+				name: "Felipe",
+				lastName: "Paz Martinez",
+				email: "lufepama31@gmail.com",
+			},
+		],
+	},
+];

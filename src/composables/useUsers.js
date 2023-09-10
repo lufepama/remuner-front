@@ -1,50 +1,29 @@
 /** @format */
 
-import { ref } from "vue";
-import { usersData } from "../data";
-import { v4 as uuidv4 } from "uuid";
+import { ref, computed } from "vue";
+import { useStore } from "vuex";
 
 const useUsers = () => {
 	//states
-	const users = ref();
-	const isLoading = ref(false);
-	const errorMessage = ref("");
-	const deleteComplete = ref(false);
-	const addComplete = ref(false);
+	const store = useStore();
 
-	const addUser = (userData) => {
-		console.log("carenalga");
-		deleteComplete.value = false;
-		userData.id = uuidv4();
-		users.value.push(userData);
-		addComplete.value = true;
-	};
-
-	const deleteUser = (array) => {
-		addComplete.value = false;
-		users.value = users.value.filter((user) => !array.includes(user.id));
-		deleteComplete.value = true;
-	};
-
-	const getUsers = async () => {
-		isLoading.value = true;
-		setTimeout(() => {
-			users.value = usersData;
-			isLoading.value = false;
-		}, 1000);
-	};
-
-	getUsers();
+	// store.dispatch("getUsers");
+	store.dispatch("users/getUsers");
 	return {
-		//refs
-		isLoading,
-		users,
-		errorMessage,
-		deleteComplete,
-		addComplete,
-		//methods
-		addUser,
-		deleteUser,
+		//getters
+		getUserDetails: computed(() => store.getters["users/getUserDetails"]),
+		getUsersList: computed(() => store.getters["users/getUsersList"]),
+		getAddCompleted: computed(() => store.getters["users/getAddCompleted"]),
+		getDeleteCompleted: computed(
+			() => store.getters["users/getDeleteCompleted"]
+		),
+		getIsLoading: computed(() => store.getters["users/getIsLoading"]),
+		//actions
+		addUser: async (userData) =>
+			await store.dispatch("users/addUser", userData),
+		deleteUser: async (userData) =>
+			await store.dispatch("users/deleteUser", userData),
+		// getUsers: async () => await store.dispatch("users/getUsers"),
 	};
 };
 

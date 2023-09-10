@@ -11,20 +11,10 @@
 					:title="getAlertText()"
 					text=""></v-alert>
 				<v-card-title>
-					<div class="header-container">
-						<h1>Gestiona tus usuarios</h1>
-						<!-- <v-btn color="primary" @click="openDialog">Abrir Diálogo</v-btn> -->
-						<div>
-							<v-btn
-								@click="handleDelete"
-								class="btn-trash"
-								icon="mdi-delete"></v-btn>
-							<v-btn
-								@click="openDialog"
-								class="btn-plus"
-								icon="mdi-plus"></v-btn>
-						</div>
-					</div>
+					<ViewCardHeader
+						title="Gestiona tus usuarios"
+						:onDelete="handleDelete"
+						:onOpen="openDialog" />
 				</v-card-title>
 				<v-card>
 					<v-card-title class="title-table">
@@ -41,10 +31,10 @@
 						:headers="headers"
 						:items="users"
 						:search="search"
-						:loading="isLoading"
 						show-select
 						hide-no-data
-						v-model="selectedUsers">
+						v-model="selectedUsers"
+						:loading="isLoading">
 					</v-data-table>
 				</v-card>
 			</v-card>
@@ -98,22 +88,26 @@ import Header from "../../components/Header.vue"; // Asegúrate de importar el c
 import { VDataTable } from "vuetify/labs/VDataTable";
 import useUsers from "../../composables/useUsers";
 import { userHeadersData } from "../../data/index";
+import ViewCardHeader from "../../components/ViewCardHeader.vue";
 
 export default {
 	components: {
 		Header,
 		VDataTable,
+		ViewCardHeader,
 	},
 	setup() {
 		const {
-			isLoading,
-			users,
-			errorMessage,
-			deleteComplete,
-			addComplete,
 			addUser,
 			deleteUser,
+			getUsersList,
+			getDeleteCompleted,
+			getAddCompleted,
+			getIsLoading,
 		} = useUsers();
+		// Datos de la tabla
+		const search = ref("");
+
 		const selectedUsers = ref([]);
 		const isOpen = ref(false);
 		const showAlert = ref(false);
@@ -122,9 +116,9 @@ export default {
 		const email = ref("");
 
 		const getAlertText = () => {
-			if (deleteComplete.value) {
+			if (getDeleteCompleted.value) {
 				return "Usuario eliminado correctamente";
-			} else if (addComplete.value) {
+			} else if (getAddCompleted.value) {
 				return "Usuario añadido correctamente";
 			}
 		};
@@ -147,29 +141,23 @@ export default {
 			isOpen.value = false;
 		};
 
-		const handleDelete = () => {
-			deleteUser(selectedUsers.value);
-			showAlert.value = true;
-		};
-
-		// Datos de la tabla
-		const search = ref("");
-
 		return {
 			isOpen,
 			selectedUsers,
-			isLoading,
+			isLoading: getIsLoading,
 			showAlert,
-			errorMessage,
 			name,
 			email,
 			lastName,
 			search,
+			users: getUsersList,
 			headers: userHeadersData,
-			users,
 			handleSave,
 			openDialog,
-			handleDelete,
+			handleDelete: () => {
+				deleteUser(selectedUsers.value);
+				showAlert.value = true;
+			},
 			getAlertText,
 		};
 	},
