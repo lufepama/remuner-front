@@ -34,3 +34,20 @@ export const postIntegrationDB = (integrationData) => {
 			console.log("err", err);
 		});
 };
+
+export const deleteIntegrationDB = (integrationData) => {
+	return fetch(`${API}/integrations`, {
+		method: "DELETE",
+		headers: {
+			Accept: "application/json",
+			"Content-Type": "application/json",
+		},
+		body: JSON.stringify(integrationData),
+	})
+		.then((res) => {
+			return res.json();
+		})
+		.catch((err) => {
+			console.log("err", err);
+		});
+};

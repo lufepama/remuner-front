@@ -2,7 +2,11 @@
 
 import { ref, computed } from "vue";
 import { useStore } from "vuex";
-import { postIntegrationDB } from "../services/integration.services";
+import {
+	postIntegrationDB,
+	deleteIntegrationDB,
+} from "../services/integration.services";
+import { adaptProxyArray } from "../utils";
 
 const useIntegrations = () => {
 	//states
@@ -36,6 +40,11 @@ const useIntegrations = () => {
 		if (success) return resp.data;
 	};
 
+	const handleDeleteIntegrations = async (integrations) => {
+		const data = adaptProxyArray(integrations, "integration_ids");
+		await deleteIntegrationDB(data);
+	};
+
 	return {
 		//getters
 		getIntegrationsList: computed(
@@ -62,6 +71,7 @@ const useIntegrations = () => {
 		getUserDetails,
 		getAlertText,
 		handleCreateIntegration,
+		handleDeleteIntegrations,
 	};
 };
 

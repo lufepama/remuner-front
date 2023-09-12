@@ -3,7 +3,7 @@
 import { ref, computed } from "vue";
 import { useStore } from "vuex";
 import { postTeamDB, deleteTeamDB } from "../services/team.services";
-import { adapProxyArray } from "../utils";
+import { adaptProxyArray } from "../utils";
 
 const useTeams = () => {
 	//states
@@ -42,7 +42,7 @@ const useTeams = () => {
 	};
 
 	const handleDeleteTeams = async (teams) => {
-		const data = adapProxyArray(teams, "team_ids");
+		const data = adaptProxyArray(teams, "team_ids");
 		await deleteTeamDB(data);
 	};
 

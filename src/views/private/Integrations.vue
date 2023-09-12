@@ -35,7 +35,7 @@
 							:search="search"
 							show-select
 							hide-no-data
-							v-model="selectedUsers"
+							v-model="selectedIntegrations"
 							:loading="isLoading"
 							:items-per-page="-1">
 							<template v-slot:item.status="{ item }">
@@ -113,11 +113,12 @@ export default {
 			deleteIntegrations,
 			getAlertText,
 			handleCreateIntegration,
+			handleDeleteIntegrations,
 		} = useIntegrations();
 		// Datos de la tabla
 		const search = ref("");
 
-		const selectedUsers = ref([]);
+		const selectedIntegrations = ref([]);
 		const isOpen = ref(false);
 		const showAlert = ref(false);
 		const name = ref("");
@@ -153,7 +154,7 @@ export default {
 		return {
 			fieldMessage,
 			isOpen,
-			selectedUsers,
+			selectedIntegrations,
 			isLoading: getIsLoading,
 			showAlert,
 			name,
@@ -164,8 +165,9 @@ export default {
 			headers: integrationsHeadersData,
 			handleSave,
 			openDialog,
-			handleDelete: () => {
-				deleteIntegrations(selectedUsers.value);
+			handleDelete: async () => {
+				await handleDeleteIntegrations(selectedIntegrations.value);
+				deleteIntegrations(selectedIntegrations.value);
 				showAlert.value = true;
 			},
 			getAlertText,
