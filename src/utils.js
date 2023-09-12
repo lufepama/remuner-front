@@ -41,3 +41,11 @@ export const adaptUserToSave = (userData) => {
 		status: userData.status,
 	};
 };
+
+/////
+export const adapProxyArray = (data, keyName) => {
+	const arrayIds = data.map((el) => el);
+	const addaptedData = {};
+	addaptedData[keyName] = arrayIds;
+	return addaptedData;
+};

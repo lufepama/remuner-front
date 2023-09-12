@@ -2,8 +2,8 @@
 
 import { ref, computed } from "vue";
 import { useStore } from "vuex";
-import { postUserDB } from "../services/user.services";
-import { adaptUserToSave } from "../utils";
+import { postUserDB, deleteUserDB } from "../services/user.services";
+import { adaptUserToSave, adapProxyArray } from "../utils";
 
 const useUsers = () => {
 	//states
@@ -41,6 +41,11 @@ const useUsers = () => {
 		}
 	};
 
+	const handleDeleteUsers = async (users) => {
+		const data = adapProxyArray(users, "user_ids");
+		await deleteUserDB(data);
+	};
+
 	return {
 		errorMessage,
 		//getters
@@ -61,6 +66,7 @@ const useUsers = () => {
 		getUserDetails,
 		getAlertText,
 		handleCreateUser,
+		handleDeleteUsers,
 	};
 };
 

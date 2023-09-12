@@ -117,6 +117,7 @@ export default {
 			addUser,
 			deleteUser,
 			handleCreateUser,
+			handleDeleteUsers,
 			errorMessage,
 			getUsersList,
 			getDeleteCompleted,
@@ -191,7 +192,8 @@ export default {
 			headers: userHeadersData,
 			handleSave,
 			openDialog,
-			handleDelete: () => {
+			handleDelete: async () => {
+				await handleDeleteUsers(selectedUsers.value);
 				deleteUser(selectedUsers.value);
 				showAlert.value = true;
 			},

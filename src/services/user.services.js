@@ -34,3 +34,20 @@ export const postUserDB = (userData) => {
 			console.log("err", err);
 		});
 };
+
+export const deleteUserDB = (userData) => {
+	return fetch(`${API}/users`, {
+		method: "DELETE",
+		headers: {
+			Accept: "application/json",
+			"Content-Type": "application/json",
+		},
+		body: JSON.stringify(userData),
+	})
+		.then((res) => {
+			return res.json();
+		})
+		.catch((err) => {
+			console.log("err", err);
+		});
+};
