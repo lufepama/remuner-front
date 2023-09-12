@@ -4,7 +4,7 @@ import { createRouter, createWebHashHistory } from "vue-router";
 
 const routes = [
 	{
-		path: "/overview",
+		path: "/",
 		name: "overview",
 		// route level code-splitting
 		// this generates a separate chunk (about.[hash].js) for this route

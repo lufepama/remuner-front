@@ -1,6 +1,8 @@
 /** @format */
-import { teamsData } from "../../data/index";
+// import { teamsData } from "../../data/index"; <-- Used during development
 import { v4 as uuidv4 } from "uuid";
+import { getTeamsDB } from "../../services/team.services";
+import { adaptTeams } from "../../utils";
 
 export default {
 	namespaced: true,
@@ -22,12 +24,16 @@ export default {
 	},
 	actions: {
 		async getTeams({ commit }) {
-			// const data = await fetch("http://api.icndb.com/jokes/random/15");
-			commit("updateLoading", true);
-			setTimeout(() => {
-				commit("updateTeams", teamsData);
-				commit("updateLoading", false);
-			}, 1500);
+			const data = await getTeamsDB();
+			const { success } = data;
+			if (success) {
+				commit("updateLoading", true);
+				setTimeout(() => {
+					//To make visual loading... it is no needed at all!
+					commit("updateTeams", data.data);
+					commit("updateLoading", false);
+				}, 1000);
+			}
 		},
 		async deleteTeams({ commit }, teamsData) {
 			commit("updateAddFlag", false);

@@ -1,6 +1,8 @@
 /** @format */
 import { usersData } from "../../data/index";
 import { v4 as uuidv4 } from "uuid";
+import { getUsersDB } from "../../services/user.services";
+import { adaptUsers } from "../../utils";
 
 export default {
 	namespaced: true,
@@ -22,12 +24,17 @@ export default {
 	},
 	actions: {
 		async getUsers({ commit }) {
-			// const data = await fetch("http://api.icndb.com/jokes/random/15");
-			commit("updateLoading", true);
-			setTimeout(() => {
-				commit("updateUsers", usersData);
-				commit("updateLoading", false);
-			}, 1500);
+			const data = await getUsersDB();
+			const { success } = data;
+			if (success) {
+				commit("updateLoading", true);
+				const users = adaptUsers(data.data);
+				setTimeout(() => {
+					//To make visual loading... it is no needed at all!
+					commit("updateLoading", false);
+					commit("updateUsers", users);
+				}, 1000);
+			}
 		},
 		async addUser({ commit }, userData) {
 			commit("updateDeleteFlag", false);

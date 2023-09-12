@@ -1,6 +1,8 @@
 /** @format */
 import { integrationsData } from "../../data/index";
 import { v4 as uuidv4 } from "uuid";
+import { getIntegrationsDB } from "../../services/integration.services";
+import { adaptIntegrations } from "../../utils";
 
 export default {
 	namespaced: true,
@@ -22,13 +24,16 @@ export default {
 	},
 	actions: {
 		async getIntegrations({ commit }) {
-			// const data = await fetch("http://api.icndb.com/jokes/random/15");
-			console.log("hols");
-			commit("updateLoading", true);
-			setTimeout(() => {
-				commit("updateIntegrations", integrationsData);
-				commit("updateLoading", false);
-			}, 1500);
+			const data = await getIntegrationsDB();
+			const { success } = data;
+			if (success) {
+				commit("updateLoading", true);
+				setTimeout(() => {
+					//To make visual loading... it is no needed at all!
+					commit("updateIntegrations", data.data);
+					commit("updateLoading", false);
+				}, 1000);
+			}
 		},
 		async addIntegrations({ commit }, payload) {
 			commit("updateDeleteFlag", false);
