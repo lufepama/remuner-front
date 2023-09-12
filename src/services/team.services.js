@@ -17,3 +17,20 @@ export const getTeamsDB = () => {
 			console.log("err", err);
 		});
 };
+
+export const postTeamDB = (teamData) => {
+	return fetch(`${API}/teams`, {
+		method: "POST",
+		headers: {
+			Accept: "application/json",
+			"Content-Type": "application/json",
+		},
+		body: JSON.stringify(teamData),
+	})
+		.then((res) => {
+			return res.json();
+		})
+		.catch((err) => {
+			console.log("err", err);
+		});
+};

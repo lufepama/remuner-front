@@ -69,11 +69,10 @@ export default {
 		updateAddFlag(state, value) {
 			state.addComplete = value;
 		},
-		addTeam(state, name) {
+		addTeam(state, teamData) {
 			const newTeam = {
-				id: uuidv4(),
-				name,
-				users: [],
+				id: teamData.id,
+				name: teamData.name,
 			};
 			state.teams.push(newTeam);
 		},

@@ -32,7 +32,7 @@
 					</v-card-title>
 					<div
 						class="table-container"
-						style="max-height: 450px; overflow-y: auto">
+						style="max-height: 300px; overflow-y: auto">
 						<v-data-table
 							:headers="headers"
 							:items="teams"
@@ -40,7 +40,8 @@
 							show-select
 							hide-no-data
 							v-model="selectedTeam"
-							:loading="isLoading">
+							:loading="isLoading"
+							:items-per-page="-1">
 						</v-data-table>
 					</div>
 				</v-card>
@@ -50,6 +51,7 @@
 					<v-card-title>
 						<span v-if="showEdit" class="text-h5">Anade un usuario </span>
 						<span v-else class="text-h5">Nuevo equipo</span>
+						<p class="mandatory-text" v-if="fieldMessage">{{ fieldMessage }}</p>
 					</v-card-title>
 					<v-card-text>
 						<v-container>
@@ -124,6 +126,7 @@ export default {
 			addUserToTeam,
 			getAlertText,
 			formattedUsers,
+			handleCreateTeam,
 		} = useTeams();
 		const { getUsersList, getUserDetails } = useUsers();
 		const selectedTeam = ref([]);
@@ -135,8 +138,10 @@ export default {
 		const isOpen = ref(false);
 		const showAlert = ref(false);
 		const name = ref("");
+		const fieldMessage = ref("");
 
 		const openDialog = () => {
+			fieldMessage.value = "";
 			name.value = "";
 			showAlert.value = false;
 			isOpen.value = true;
@@ -151,20 +156,25 @@ export default {
 			showObserve.value = false;
 		};
 
-		const handleSave = () => {
+		const handleSave = async () => {
 			if (showEdit.value) {
 				const userInfo = getUserDetails(selectedUser.value.id);
 				const teamId = selectedTeam.value[0];
-
 				addUserToTeam({ userData: userInfo.value, teamId });
 				isOpen.value = false;
 				selectedTeam.value = null;
 				selectedUser.value = null;
 			} else {
-				console.log(2);
-				addTeam(name.value);
-				showAlert.value = true;
-				isOpen.value = false;
+				if (name.value != "") {
+					const teamId = await handleCreateTeam(name.value);
+					if (teamId) {
+						addTeam({ name: name.value, id: teamId });
+						showAlert.value = true;
+						isOpen.value = false;
+					}
+				} else {
+					fieldMessage.value = "El campo es obligatorio";
+				}
 			}
 		};
 
@@ -198,6 +208,7 @@ export default {
 		const search = ref("");
 
 		return {
+			fieldMessage,
 			isOpen,
 			selectedTeam,
 			showEdit,
@@ -247,5 +258,10 @@ section {
 }
 .card-title h1 {
 	align-self: center;
+}
+.mandatory-text {
+	color: red;
+	margin-left: 50px;
+	font-size: 15px;
 }
 </style>

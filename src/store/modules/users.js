@@ -52,7 +52,7 @@ export default {
 			state.users = payload;
 		},
 		addUser(state, payload) {
-			payload.id = uuidv4();
+			payload.id = payload.id;
 			state.users.push(payload);
 		},
 		deleteUser(state, payload) {

@@ -28,7 +28,7 @@
 					</v-card-title>
 					<div
 						class="table-container"
-						style="max-height: 300px; overflow-y: auto">
+						style="max-height: 300px; overflow-y: scroll">
 						<v-data-table
 							:headers="headers"
 							:items="users"
@@ -36,7 +36,8 @@
 							show-select
 							hide-no-data
 							v-model="selectedUsers"
-							:loading="isLoading">
+							:loading="isLoading"
+							:items-per-page="-1">
 							<template v-slot:item.status="{ item }">
 								<i
 									v-if="item.selectable.status"
@@ -143,6 +144,7 @@ export default {
 		};
 
 		const openDialog = () => {
+			fieldMessage.value = "";
 			errorMessage.value = "";
 			name.value = "";
 			email.value = "";
@@ -156,20 +158,15 @@ export default {
 		const handleSave = async () => {
 			fieldMessage.value = "";
 			if (name.value != "" && lastName.value != "" && email.value != "") {
-				const userId = await handleCreateUser({
+				const data = {
 					email: email.value,
 					name: name.value,
 					lastName: lastName.value,
 					status: status.value,
-				});
+				};
+				const userId = await handleCreateUser(data);
 				if (userId) {
-					addUser({
-						id: userId,
-						email: email.value,
-						name: name.value,
-						lastName: lastName.value,
-						status: status.value,
-					});
+					addUser({ ...data, id: userId });
 					showAlert.value = true;
 					isOpen.value = false;
 				}

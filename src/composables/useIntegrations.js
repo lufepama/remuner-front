@@ -2,6 +2,7 @@
 
 import { ref, computed } from "vue";
 import { useStore } from "vuex";
+import { postIntegrationDB } from "../services/integration.services";
 
 const useIntegrations = () => {
 	//states
@@ -29,6 +30,12 @@ const useIntegrations = () => {
 			store.getters["integrations/getIntegrationsDetails"](inteId)
 		);
 
+	const handleCreateIntegration = async (integrationData) => {
+		const resp = await postIntegrationDB(integrationData);
+		const { success } = resp;
+		if (success) return resp.data;
+	};
+
 	return {
 		//getters
 		getIntegrationsList: computed(
@@ -54,6 +61,7 @@ const useIntegrations = () => {
 		//methods
 		getUserDetails,
 		getAlertText,
+		handleCreateIntegration,
 	};
 };
 

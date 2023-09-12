@@ -51,8 +51,8 @@ export default {
 			state.integrations = payload;
 		},
 		addIntegration(state, payload) {
-			payload.id = uuidv4();
-			payload.token = uuidv4();
+			payload.id = payload.id;
+			payload.token = payload.token;
 			state.integrations.push(payload);
 		},
 		deleteIntegrations(state, payload) {

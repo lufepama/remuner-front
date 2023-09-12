@@ -36,7 +36,8 @@
 							show-select
 							hide-no-data
 							v-model="selectedUsers"
-							:loading="isLoading">
+							:loading="isLoading"
+							:items-per-page="-1">
 							<template v-slot:item.status="{ item }">
 								<i
 									v-if="item.selectable.status"
@@ -52,6 +53,7 @@
 				<v-card>
 					<v-card-title>
 						<span class="text-h5">Nueva integracion</span>
+						<p class="mandatory-text" v-if="fieldMessage">{{ fieldMessage }}</p>
 					</v-card-title>
 					<v-card-text>
 						<v-container>
@@ -105,11 +107,12 @@ export default {
 	},
 	setup() {
 		const {
+			getIntegrationsList,
+			getIsLoading,
 			addIntegrations,
 			deleteIntegrations,
 			getAlertText,
-			getIntegrationsList,
-			getIsLoading,
+			handleCreateIntegration,
 		} = useIntegrations();
 		// Datos de la tabla
 		const search = ref("");
@@ -120,8 +123,10 @@ export default {
 		const name = ref("");
 		const type = ref("");
 		const status = ref(false);
+		const fieldMessage = ref("");
 
 		const openDialog = () => {
+			fieldMessage.value = "";
 			name.value = "";
 			type.value = "";
 			status.value = false;
@@ -129,17 +134,24 @@ export default {
 			isOpen.value = true;
 		};
 
-		const handleSave = () => {
-			addIntegrations({
-				name: name.value,
-				type: type.value,
-				status: status.value,
-			});
-			showAlert.value = true;
-			isOpen.value = false;
+		const handleSave = async () => {
+			if (name.value != "" && type.value != "") {
+				const data = {
+					name: name.value,
+					type: type.value,
+					status: status.value,
+				};
+				const body = await handleCreateIntegration(data);
+				addIntegrations({ ...data, id: body.id, token: body.token });
+				showAlert.value = true;
+				isOpen.value = false;
+			} else {
+				fieldMessage.value = "Recuerda que todos los campos son obligatorios";
+			}
 		};
 
 		return {
+			fieldMessage,
 			isOpen,
 			selectedUsers,
 			isLoading: getIsLoading,
@@ -204,5 +216,10 @@ section {
 }
 .check-icon {
 	color: yellowgreen;
+}
+.mandatory-text {
+	color: red;
+	margin-left: 50px;
+	font-size: 15px;
 }
 </style>

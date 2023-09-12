@@ -2,6 +2,7 @@
 
 import { ref, computed } from "vue";
 import { useStore } from "vuex";
+import { postTeamDB } from "../services/team.services";
 
 const useTeams = () => {
 	//states
@@ -33,6 +34,12 @@ const useTeams = () => {
 		}));
 	};
 
+	const handleCreateTeam = async (name) => {
+		const resp = await postTeamDB({ name });
+		const { success } = resp;
+		if (success) return resp.data;
+	};
+
 	return {
 		//getters
 		getTeamsList: computed(() => store.getters["teams/getTeamsList"]),
@@ -58,6 +65,7 @@ const useTeams = () => {
 		getTeamDetails,
 		getAlertText,
 		formattedUsers,
+		handleCreateTeam,
 	};
 };
 

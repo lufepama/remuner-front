@@ -19,7 +19,6 @@ export const getUsersDB = () => {
 };
 
 export const postUserDB = (userData) => {
-	console.log(userData);
 	return fetch(`${API}/users`, {
 		method: "POST",
 		headers: {
