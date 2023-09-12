@@ -2,11 +2,13 @@
 
 import { ref, computed } from "vue";
 import { useStore } from "vuex";
+import { postUserDB } from "../services/user.services";
+import { adaptUserToSave } from "../utils";
 
 const useUsers = () => {
 	//states
 	const store = useStore();
-
+	const errorMessage = ref("");
 	// store.dispatch("getUsers");
 	store.dispatch("users/getUsers");
 
@@ -27,7 +29,20 @@ const useUsers = () => {
 	const getUserDetails = (userId) =>
 		computed(() => store.getters["users/getUserDetails"](userId));
 
+	const handleCreateUser = async (userData) => {
+		const adaptedUser = adaptUserToSave(userData);
+		const resp = await postUserDB(adaptedUser);
+		const { success } = resp;
+		if (success) {
+			return resp.data;
+		} else {
+			errorMessage.value = resp.detail[0];
+			return null;
+		}
+	};
+
 	return {
+		errorMessage,
 		//getters
 		getUsersList: computed(() => store.getters["users/getUsersList"]),
 		getAddCompleted: computed(() => store.getters["users/getAddCompleted"]),
@@ -45,6 +60,7 @@ const useUsers = () => {
 		//methods
 		getUserDetails,
 		getAlertText,
+		handleCreateUser,
 	};
 };
 

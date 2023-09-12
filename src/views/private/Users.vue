@@ -52,6 +52,8 @@
 				<v-card>
 					<v-card-title>
 						<span class="text-h5">Nuevo usuario</span>
+						<p class="mandatory-text" v-if="fieldMessage">{{ fieldMessage }}</p>
+						<p class="mandatory-text" v-if="errorMessage">{{ errorMessage }}</p>
 					</v-card-title>
 					<v-card-text>
 						<v-container>
@@ -113,6 +115,8 @@ export default {
 		const {
 			addUser,
 			deleteUser,
+			handleCreateUser,
+			errorMessage,
 			getUsersList,
 			getDeleteCompleted,
 			getAddCompleted,
@@ -128,6 +132,7 @@ export default {
 		const lastName = ref("");
 		const email = ref("");
 		const status = ref(false);
+		const fieldMessage = ref("");
 
 		const getAlertText = () => {
 			if (getDeleteCompleted.value) {
@@ -138,6 +143,7 @@ export default {
 		};
 
 		const openDialog = () => {
+			errorMessage.value = "";
 			name.value = "";
 			email.value = "";
 			lastName.value = "";
@@ -147,20 +153,36 @@ export default {
 			isOpen.value = true;
 		};
 
-		const handleSave = () => {
-			addUser({
-				email: email.value,
-				name: name.value,
-				lastName: lastName.value,
-				status: status.value,
-			});
-			showAlert.value = true;
-			isOpen.value = false;
+		const handleSave = async () => {
+			fieldMessage.value = "";
+			if (name.value != "" && lastName.value != "" && email.value != "") {
+				const userId = await handleCreateUser({
+					email: email.value,
+					name: name.value,
+					lastName: lastName.value,
+					status: status.value,
+				});
+				if (userId) {
+					addUser({
+						id: userId,
+						email: email.value,
+						name: name.value,
+						lastName: lastName.value,
+						status: status.value,
+					});
+					showAlert.value = true;
+					isOpen.value = false;
+				}
+			} else {
+				fieldMessage.value = "Recuerda que todos los campos son obligatorios";
+			}
 		};
 
 		return {
+			errorMessage,
 			isOpen,
 			selectedUsers,
+			fieldMessage,
 			isLoading: getIsLoading,
 			showAlert,
 			name,
@@ -223,5 +245,10 @@ section {
 }
 .check-icon {
 	color: yellowgreen;
+}
+.mandatory-text {
+	color: red;
+	margin-left: 50px;
+	font-size: 15px;
 }
 </style>

@@ -20,10 +20,7 @@ export const adaptTeams = (teams) => {
 		};
 	});
 };
-// id: 1,
-// name: "Integration #1",
-// token: uuidv4(),
-// status: false,
+
 export const adaptIntegrations = (integrations) => {
 	return integrations.map((integration) => {
 		return {
@@ -34,4 +31,13 @@ export const adaptIntegrations = (integrations) => {
 			status: integration.status,
 		};
 	});
+};
+
+export const adaptUserToSave = (userData) => {
+	return {
+		first_name: userData.name,
+		last_name: userData.lastName,
+		email: userData.email,
+		status: userData.status,
+	};
 };
