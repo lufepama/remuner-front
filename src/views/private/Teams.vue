@@ -127,6 +127,7 @@ export default {
 			getAlertText,
 			formattedUsers,
 			handleCreateTeam,
+			handleDeleteTeams,
 		} = useTeams();
 		const { getUsersList, getUserDetails } = useUsers();
 		const selectedTeam = ref([]);
@@ -178,11 +179,6 @@ export default {
 			}
 		};
 
-		const handleDelete = () => {
-			deleteTeams(selectedTeam.value);
-			showAlert.value = true;
-		};
-
 		const handleEdit = () => {
 			showEdit.value = true;
 			setTimeout(() => {
@@ -225,7 +221,11 @@ export default {
 			selectedUser,
 			handleSave,
 			openDialog,
-			handleDelete,
+			handleDelete: async () => {
+				await handleDeleteTeams(selectedTeam.value);
+				deleteTeams(selectedTeam.value);
+				showAlert.value = true;
+			},
 			getAlertText,
 			handleEdit,
 			handleClose,

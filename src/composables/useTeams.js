@@ -2,7 +2,8 @@
 
 import { ref, computed } from "vue";
 import { useStore } from "vuex";
-import { postTeamDB } from "../services/team.services";
+import { postTeamDB, deleteTeamDB } from "../services/team.services";
+import { adapProxyArray } from "../utils";
 
 const useTeams = () => {
 	//states
@@ -40,6 +41,11 @@ const useTeams = () => {
 		if (success) return resp.data;
 	};
 
+	const handleDeleteTeams = async (teams) => {
+		const data = adapProxyArray(teams, "team_ids");
+		await deleteTeamDB(data);
+	};
+
 	return {
 		//getters
 		getTeamsList: computed(() => store.getters["teams/getTeamsList"]),
@@ -66,6 +72,7 @@ const useTeams = () => {
 		getAlertText,
 		formattedUsers,
 		handleCreateTeam,
+		handleDeleteTeams,
 	};
 };
 
