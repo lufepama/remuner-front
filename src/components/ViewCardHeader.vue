@@ -11,12 +11,14 @@
 				v-if="canEdit"
 				@click="onEdit"
 				class="btn-edit"
-				icon="mdi-pencil"></v-btn>
+				icon="mdi-pencil"
+				:disabled="isObserveAvailable"></v-btn>
 			<v-btn
 				v-if="canObserve"
 				@click="onObserve"
 				class="btn-edit"
-				icon="mdi-eye"></v-btn>
+				icon="mdi-eye"
+				:disabled="isObserveAvailable"></v-btn>
 		</div>
 	</div>
 </template>
@@ -30,6 +32,7 @@ export default {
 		"canEdit",
 		"canObserve",
 		"onObserve",
+		"isObserveAvailable",
 	],
 	setup(props) {
 		return {

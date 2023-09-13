@@ -18,9 +18,13 @@
 						:canEdit="true"
 						:canObserve="true"
 						:onObserve="handleObserve"
-						:onEdit="handleEdit" />
+						:onEdit="handleEdit"
+						:isObserveAvailable="multipleChoiceMessage.length > 0" />
 				</v-card-title>
 				<v-card>
+					<p class="multiple-choice-text" v-if="multipleChoiceMessage">
+						NOTA: {{ multipleChoiceMessage }}
+					</p>
 					<v-card-title class="title-table">
 						<v-spacer></v-spacer>
 						<v-text-field
@@ -144,6 +148,7 @@ export default {
 		const showAlert = ref(false);
 		const name = ref("");
 		const fieldMessage = ref("");
+		const multipleChoiceMessage = ref("");
 
 		const openDialog = () => {
 			fieldMessage.value = "";
@@ -159,6 +164,7 @@ export default {
 			}, 500);
 			showEdit.value = false;
 			showObserve.value = false;
+			multipleChoiceMessage.value = "";
 		};
 
 		const handleSave = async () => {
@@ -209,7 +215,17 @@ export default {
 		// Datos de la tabla
 		const search = ref("");
 
+		watch(selectedTeam, () => {
+			if (selectedTeam.value.length > 1) {
+				multipleChoiceMessage.value =
+					"Tienes mas de un elemento seleccionado, por lo tanto la unica accion permitida es la de eliminar";
+			} else {
+				multipleChoiceMessage.value = "";
+			}
+		});
+
 		return {
+			multipleChoiceMessage,
 			fieldMessage,
 			isOpen,
 			selectedTeam,
@@ -230,6 +246,7 @@ export default {
 				await handleDeleteTeams(selectedTeam.value);
 				deleteTeams(selectedTeam.value);
 				showAlert.value = true;
+				multipleChoiceMessage.value = "";
 			},
 			getAlertText,
 			handleEdit,
@@ -274,5 +291,11 @@ section {
 	position: absolute;
 	top: -10px;
 	left: 2;
+}
+.multiple-choice-text {
+	color: red;
+	font-weight: bold;
+	font-size: 12px;
+	margin-left: 20px;
 }
 </style>
