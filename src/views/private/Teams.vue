@@ -254,6 +254,7 @@ section {
 }
 .card-container {
 	height: 100% !important;
+	position: relative;
 }
 .table-container {
 	height: 100%;
@@ -268,5 +269,10 @@ section {
 	color: red;
 	margin-left: 50px;
 	font-size: 15px;
+}
+.alert-container {
+	position: absolute;
+	top: -10px;
+	left: 2;
 }
 </style>

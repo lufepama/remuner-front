@@ -27,9 +27,9 @@ const useTeams = () => {
 			() => store.getters["teams/getAddCompleted"]
 		);
 		if (getDeleteCompleted.value) {
-			return "Has eliminado de equipo un recurso correctamente";
+			return "Has eliminado un recurso de equipo correctamente";
 		} else if (getAddCompleted.value) {
-			return "Has añadido de equipo un recurso correctamente";
+			return "Has añadido un recurso de equipo  correctamente";
 		}
 	};
 
