@@ -216,7 +216,7 @@ export default {
 		const search = ref("");
 
 		watch(selectedTeam, () => {
-			if (selectedTeam.value.length > 1) {
+			if (selectedTeam.value && selectedTeam.value.length > 1) {
 				multipleChoiceMessage.value =
 					"Tienes mas de un elemento seleccionado, por lo tanto la unica accion permitida es la de eliminar";
 			} else {
