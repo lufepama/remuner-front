@@ -57,8 +57,11 @@
 						<v-container>
 							<v-row>
 								<v-col v-if="showObserve">
-									<h4>Lista de usuarios</h4>
-									<ul>
+									<p v-if="usersInTeam.length == 0">
+										Este equipo aún NO tiene usuarios!
+									</p>
+									<ul v-else>
+										<h4>Lista de usuarios</h4>
 										<li v-for="{ id, name } in usersInTeam" :key="id">
 											{{ name }}
 										</li>
@@ -194,9 +197,10 @@ export default {
 		};
 
 		const handleObserve = () => {
-			setTimeout(() => {
+			setTimeout(async () => {
 				const team = getTeamDetails(selectedTeam.value[0]);
-				usersInTeam.value = team.value.users;
+				const team_users = await handleGetTeamUsers(team.value.id);
+				usersInTeam.value = team_users;
 				showObserve.value = true;
 				isOpen.value = true;
 			}, 500);

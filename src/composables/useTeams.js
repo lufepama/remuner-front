@@ -8,7 +8,7 @@ import {
 	getTeamUsersDB,
 	postUserToTeamDB,
 } from "../services/team.services";
-import { adaptProxyArray, adaptUserTeamData } from "../utils";
+import { adaptProxyArray, adaptUsers, adaptUserTeamData } from "../utils";
 
 const useTeams = () => {
 	//states
@@ -54,13 +54,12 @@ const useTeams = () => {
 	const handleGetTeamUsers = async (teamId) => {
 		const resp = await getTeamUsersDB(teamId);
 		const { success } = resp;
-		if (success) return resp.data;
+		if (success) return adaptUsers(resp.data);
 	};
 
 	const addUserToTeam = async (userId, teamId) => {
 		const data = adaptUserTeamData(userId, teamId);
 		const resp = await postUserToTeamDB(data);
-		console.log(data);
 		const { success } = resp;
 		if (success) return resp.data;
 	};
@@ -81,8 +80,6 @@ const useTeams = () => {
 			await store.dispatch("teams/deleteTeams", teamsData),
 		addTeam: async (teamData) =>
 			await store.dispatch("teams/addTeam", teamData),
-		// addUserToTeam: async (userTeamData) =>
-		// 	await store.dispatch("teams/addUserToTeam", userTeamData),
 		deleteUserInTeam: async (userTeamData) =>
 			await store.dispatch("teams/deleteTeams", userTeamData),
 
