@@ -79,12 +79,12 @@ export default {
 		deleteTeams(state, payload) {
 			state.teams = state.teams.filter((team) => !payload.includes(team.id));
 		},
-		addUserToTeam(state, { userData, teamId }) {
-			const team = state.teams.find((team) => team.id === teamId);
-			if (team) {
-				team.users.push(userData);
-			}
-		},
+		// addUserToTeam(state, { userData, teamId }) {
+		// 	const team = state.teams.find((team) => team.id === teamId);
+		// 	if (team) {
+		// 		team.users.push(userData);
+		// 	}
+		// },
 		deleteUserInTeam(state, { userId, teamId }) {
 			const team = state.teams.value.find((team) => team.id === teamId);
 			if (team) {

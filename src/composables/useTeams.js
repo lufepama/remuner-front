@@ -2,8 +2,13 @@
 
 import { ref, computed } from "vue";
 import { useStore } from "vuex";
-import { postTeamDB, deleteTeamDB } from "../services/team.services";
-import { adaptProxyArray } from "../utils";
+import {
+	postTeamDB,
+	deleteTeamDB,
+	getTeamUsersDB,
+	postUserToTeamDB,
+} from "../services/team.services";
+import { adaptProxyArray, adaptUserTeamData } from "../utils";
 
 const useTeams = () => {
 	//states
@@ -46,6 +51,20 @@ const useTeams = () => {
 		await deleteTeamDB(data);
 	};
 
+	const handleGetTeamUsers = async (teamId) => {
+		const resp = await getTeamUsersDB(teamId);
+		const { success } = resp;
+		if (success) return resp.data;
+	};
+
+	const addUserToTeam = async (userId, teamId) => {
+		const data = adaptUserTeamData(userId, teamId);
+		const resp = await postUserToTeamDB(data);
+		console.log(data);
+		const { success } = resp;
+		if (success) return resp.data;
+	};
+
 	return {
 		//getters
 		getTeamsList: computed(() => store.getters["teams/getTeamsList"]),
@@ -62,8 +81,8 @@ const useTeams = () => {
 			await store.dispatch("teams/deleteTeams", teamsData),
 		addTeam: async (teamData) =>
 			await store.dispatch("teams/addTeam", teamData),
-		addUserToTeam: async (userTeamData) =>
-			await store.dispatch("teams/addUserToTeam", userTeamData),
+		// addUserToTeam: async (userTeamData) =>
+		// 	await store.dispatch("teams/addUserToTeam", userTeamData),
 		deleteUserInTeam: async (userTeamData) =>
 			await store.dispatch("teams/deleteTeams", userTeamData),
 
@@ -73,6 +92,8 @@ const useTeams = () => {
 		formattedUsers,
 		handleCreateTeam,
 		handleDeleteTeams,
+		handleGetTeamUsers,
+		addUserToTeam,
 	};
 };
 

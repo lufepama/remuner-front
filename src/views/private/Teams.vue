@@ -128,6 +128,7 @@ export default {
 			formattedUsers,
 			handleCreateTeam,
 			handleDeleteTeams,
+			handleGetTeamUsers,
 		} = useTeams();
 		const { getUsersList, getUserDetails } = useUsers();
 		const selectedTeam = ref([]);
@@ -161,7 +162,7 @@ export default {
 			if (showEdit.value) {
 				const userInfo = getUserDetails(selectedUser.value.id);
 				const teamId = selectedTeam.value[0];
-				addUserToTeam({ userData: userInfo.value, teamId });
+				addUserToTeam(userInfo.value.id, teamId);
 				isOpen.value = false;
 				selectedTeam.value = null;
 				selectedUser.value = null;
@@ -181,10 +182,11 @@ export default {
 
 		const handleEdit = () => {
 			showEdit.value = true;
-			setTimeout(() => {
+			setTimeout(async () => {
 				const team = getTeamDetails(selectedTeam.value[0]);
+				const team_users = await handleGetTeamUsers(team.value.id);
 				const users = getUsersList.value.filter((user) => {
-					return !team.value.users.some((usr) => usr.id === user.id);
+					return !team_users.some((usr) => usr.id === user.id);
 				});
 				availableUsers.value = formattedUsers(users);
 				isOpen.value = true;
@@ -212,7 +214,6 @@ export default {
 			usersInTeam,
 			isLoading: getIsLoading,
 			showAlert,
-			// errorMessage,
 			name,
 			search,
 			headers: teamHeadersData,

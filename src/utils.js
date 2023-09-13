@@ -49,3 +49,8 @@ export const adaptProxyArray = (data, keyName) => {
 	addaptedData[keyName] = arrayIds;
 	return addaptedData;
 };
+
+export const adaptUserTeamData = (userId, teamId) => ({
+	user_id: parseInt(userId),
+	team_id: parseInt(teamId),
+});
